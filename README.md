@@ -1,5 +1,14 @@
 # Lab3: A web application for tram network
 
+
+
+
+# TO RUN THE FILE : myvenv/Scripts/activate.ps1
+
+
+
+
+
 Advanced Python Course, Chalmers DAT515, 2022
 
 by Aarne Ranta
