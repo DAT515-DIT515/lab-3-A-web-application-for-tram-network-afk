@@ -3,9 +3,9 @@
 
 
 
-# TO RUN THE FILE : myvenv/Scripts/activate.ps1
-
-
+# TO RUN THE FILE(at least brunon) : myvenv/Scripts/activate.ps1
+                    Set-ExecutionPolicy Unrestricted -Scope Process
+                    python manage.py runserver
 
 
 
