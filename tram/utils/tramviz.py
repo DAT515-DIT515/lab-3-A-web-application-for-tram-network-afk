@@ -6,7 +6,8 @@ from .color_tram_svg import color_svg_network
 import os
 from django.conf import settings
 
-def show_shortest(dep, dest):
+
+def show_shortest(dep, dest, cost=lambda u, v: 1):
     # TODO: uncomment this when it works with your own code
     network = readTramNetwork()
 
@@ -18,17 +19,31 @@ def show_shortest(dep, dest):
     # If you do Bonus 1, you could also tell which tram lines you use and where changes
     # happen. But since this was not mentioned in lab3.md, it is not compulsory.
 
-    quickest = [dep, 'Chalmers', dest]
-    shortest = [dep, 'Chalmers', dest] 
+    quickest = [dep, 'Varmfrontsgatan', 'Temperaturgatan', dest]
     
-    timepath = 'Quickest: ' + ', '.join(quickest) + ', 5 minutes'
-    geopath = 'Shortest: ' + ', '.join(shortest) + ', 100 km'
+    #distance, path = dijkstra(network, dep, cost)
+    
+    #shortest = path[dest]
+    shortest = [dep, 'Chalmers', 'Temperaturgatan', dest]
+    
+    timepath = 'Quickest: ' + ', '.join(quickest) + ', time it took'
+    
+    geopath = 'Shortest: ' + ', '.join(shortest) + ', distance traveled (i think thats what they want)'
 
 
 
     def colors(v):
-        if v in shortest:
+        if v == dep:
+            return 'red'
+        elif v == dest:
+            return 'yellow'
+        elif v in shortest and v in quickest:
             return 'cyan'
+        elif v in shortest:
+            return 'limegreen'
+        elif v in quickest:
+            return 'orange'
+        
         else:
             return 'white'
             

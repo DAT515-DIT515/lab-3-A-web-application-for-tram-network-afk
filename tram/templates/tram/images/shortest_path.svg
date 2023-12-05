@@ -286,7 +286,7 @@
 <g id="node13" class="node">
 <title>Brunnsparken</title>
 <g id="a_node13"><a ns0:href="https://www.google.com/search?q=Gothenburg+Brunnsparken" ns0:title="Brunnsparken" href="https://www.google.com/search?q=Gothenburg+Brunnsparken" title="Brunnsparken">
-<polygon fill="white" stroke="black" points="700.98,-488.07 639.98,-488.07 639.98,-471.07 700.98,-471.07 700.98,-488.07" />
+<polygon fill="red" stroke="black" points="700.98,-488.07 639.98,-488.07 639.98,-471.07 700.98,-471.07 700.98,-488.07" />
 <text text-anchor="middle" x="670.48" y="-477.67" font-family="Times,serif" font-size="8.00">Brunnsparken</text>
 </a>
 </g>
@@ -368,7 +368,7 @@
 <g id="node14" class="node">
 <title>Stenpiren</title>
 <g id="a_node14"><a ns0:href="https://www.google.com/search?q=Gothenburg+Stenpiren" ns0:title="Stenpiren" href="https://www.google.com/search?q=Gothenburg+Stenpiren" title="Stenpiren">
-<polygon fill="white" stroke="black" points="569.04,-489.11 522.04,-489.11 522.04,-472.11 569.04,-472.11 569.04,-489.11" />
+<polygon fill="yellow" stroke="black" points="569.04,-489.11 522.04,-489.11 522.04,-472.11 569.04,-472.11 569.04,-489.11" />
 <text text-anchor="middle" x="545.54" y="-478.71" font-family="Times,serif" font-size="8.00">Stenpiren</text>
 </a>
 </g>
@@ -1077,7 +1077,7 @@
 <g id="node107" class="node">
 <title>Chalmers</title>
 <g id="a_node107"><a ns0:href="https://www.google.com/search?q=Gothenburg+Chalmers" ns0:title="Chalmers" href="https://www.google.com/search?q=Gothenburg+Chalmers" title="Chalmers">
-<polygon fill="cyan" stroke="black" points="819.28,-327.42 772.28,-327.42 772.28,-310.42 819.28,-310.42 819.28,-327.42" />
+<polygon fill="limegreen" stroke="black" points="819.28,-327.42 772.28,-327.42 772.28,-310.42 819.28,-310.42 819.28,-327.42" />
 <text text-anchor="middle" x="795.78" y="-317.02" font-family="Times,serif" font-size="8.00">Chalmers</text>
 </a>
 </g>
@@ -2173,7 +2173,7 @@
 <g id="node95" class="node">
 <title>Temperaturgatan</title>
 <g id="a_node95"><a ns0:href="https://www.google.com/search?q=Gothenburg+Temperaturgatan" ns0:title="Temperaturgatan" href="https://www.google.com/search?q=Gothenburg+Temperaturgatan" title="Temperaturgatan">
-<polygon fill="white" stroke="black" points="276.78,-611.03 206.78,-611.03 206.78,-594.03 276.78,-594.03 276.78,-611.03" />
+<polygon fill="cyan" stroke="black" points="276.78,-611.03 206.78,-611.03 206.78,-594.03 276.78,-594.03 276.78,-611.03" />
 <text text-anchor="middle" x="241.78" y="-600.63" font-family="Times,serif" font-size="8.00">Temperaturgatan</text>
 </a>
 </g>
@@ -2192,7 +2192,7 @@
 <g id="node96" class="node">
 <title>Varmfrontsgatan</title>
 <g id="a_node96"><a ns0:href="https://www.google.com/search?q=Gothenburg+Varmfrontsgatan" ns0:title="Varmfrontsgatan" href="https://www.google.com/search?q=Gothenburg+Varmfrontsgatan" title="Varmfrontsgatan">
-<polygon fill="white" stroke="black" points="282.08,-637.79 212.08,-637.79 212.08,-620.79 282.08,-620.79 282.08,-637.79" />
+<polygon fill="orange" stroke="black" points="282.08,-637.79 212.08,-637.79 212.08,-620.79 282.08,-620.79 282.08,-637.79" />
 <text text-anchor="middle" x="247.08" y="-627.39" font-family="Times,serif" font-size="8.00">Varmfrontsgatan</text>
 </a>
 </g>
