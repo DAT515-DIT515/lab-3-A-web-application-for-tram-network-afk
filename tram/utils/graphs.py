@@ -1,5 +1,5 @@
 import graphviz as gv
-
+from .trams import *
 
 
 class Graph():
@@ -136,8 +136,9 @@ def visualize(graph, view='dot', name='mygraph.gv', nodecolors={}, engine='dot')
     dot.render(name, view, format='png')
 
 
+#def view_shortest(G, source, target, cost=TramNetwork.geo_distansce):
 def view_shortest(G, source, target, cost=lambda u, v: 1):
-    distance, path = dijkstra(G, source, cost)
+    distance, path = dijkstra(G, source, cost=lambda u, v, graph: cost(u, v, graph))
     path_target = path[target]
     colormap = {str(v): 'orange' for v in path_target}
     src = {str(source): "red"}
