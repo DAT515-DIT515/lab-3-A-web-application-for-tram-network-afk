@@ -24,6 +24,8 @@ def show_shortest(dep, dest):
     timepath = 'Quickest: ' + ', '.join(quickest) + ', 5 minutes'
     geopath = 'Shortest: ' + ', '.join(shortest) + ', 100 km'
 
+
+
     def colors(v):
         if v in shortest:
             return 'cyan'
