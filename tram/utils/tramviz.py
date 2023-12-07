@@ -1,7 +1,7 @@
 # visualization of shortest path in Lab 3, modified to work with Django
 
 from .trams import readTramNetwork
-from .graphs import *
+from .graphs import dijkstra
 from .color_tram_svg import color_svg_network
 import os
 from django.conf import settings
@@ -19,41 +19,24 @@ def show_shortest(dep, dest, cost=lambda u, v: 1):
     # If you do Bonus 1, you could also tell which tram lines you use and where changes
     # happen. But since this was not mentioned in lab3.md, it is not compulsory.
 
-    # cost=lambda u, v, graph: cost(u, v, graph)
-    vertices = Graph.vertices()
-    dist = {v: float('inf') for v in vertices}
-    prev = {v: None for v in vertices}
-    paths = {v: [] for v in vertices}
-
-    dist[dep] = 0
-    unexplored = set(vertices)
-
-    while unexplored:
-        current_vertex = min(unexplored, key=lambda v: dist[v])
-        unexplored.remove(current_vertex)
-
-        neighbors = Graph.neighbors(current_vertex)
-        cost=lambda u, v, graph: cost(u, v, graph)
-        for neighbor in neighbors:
-            weight = cost(current_vertex, neighbor)
-            if dist[current_vertex] + weight < dist[neighbor]:
-                if neighbor in dist:
-                    dist[neighbor] = dist[current_vertex] + weight
-                    prev[neighbor] = current_vertex
-                    paths[neighbor] = paths[current_vertex] + [neighbor]
-
-    # return dist, paths      
-
-    # quickest = [dep, 'Varmfrontsgatan', 'Temperaturgatan', dest]
     
-    distance, path = dijkstra(network, dep, cost)
-    
-    shortest = path[dest]
+    #quickest = [dep, 'Varmfrontsgatan', 'Temperaturgatan', 'Valand', dest]
     # shortest = [dep, 'Chalmers', 'Temperaturgatan', dest]
+    distance, shortpath = dijkstra(network, dep, cost = network.geo_distansce)
     
-    # timepath = 'Quickest: ' + ', '.join(quickest) + ', time it took'
+    shortest = shortpath[dest]
+    distacne_traveled = distance[dest]
     
-    geopath = 'Shortest: ' + ', '.join(shortest) + ', distance traveled (i think thats what they want)'
+    time, quickpath = dijkstra(network, dep, cost = network.travel_time)
+    quickest = quickpath[dest]
+    travel_time = time[dest]
+   
+
+    timepath = 'Quickest: ' + ', '.join(quickest) + ' Time it took: ' + str(travel_time) + " min."
+    
+    geopath = 'Shortest: ' + \
+        ', '.join(shortest) + \
+        '. Distance traveled: ' "{:.3f}".format(distacne_traveled) +  ' km.'
 
 
 
@@ -68,7 +51,6 @@ def show_shortest(dep, dest, cost=lambda u, v: 1):
             return 'limegreen'
         elif v in quickest:
             return 'orange'
-        
         else:
             return 'white'
             

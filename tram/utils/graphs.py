@@ -1,5 +1,5 @@
 import graphviz as gv
-from .trams import *
+
 
 
 class Graph():
@@ -90,7 +90,7 @@ class WeightedGraph(Graph):
         return self._weightlist
 
 
-def dijkstra(graph, source, cost=lambda u, v: 1):
+def dijkstra(graph, source, cost=lambda u, v, g: 1):
     vertices = graph.vertices()
     dist = {v: float('inf') for v in vertices}
     prev = {v: None for v in vertices}

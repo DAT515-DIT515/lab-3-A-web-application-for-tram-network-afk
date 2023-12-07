@@ -3,7 +3,7 @@ import json
 # imports added in Lab3 version
 from math import cos, sqrt, pi
 import os
-from .graphs import *
+from .graphs import WeightedGraph
 from django.conf import settings
 
 
@@ -20,13 +20,13 @@ class TramNetwork(WeightedGraph):
         self._timedict = times
 
         for stop_name in self._stopdict.keys():
-            Graph.add_vertex(self, stop_name)
+            WeightedGraph.add_vertex(self, stop_name)
 
         for tram_line, stops in self._linedict.items():
             for i in range(len(stops) - 1):
                 stop1 = stops[i]
                 stop2 = stops[i+1]
-                Graph.add_edge(self, stop1, stop2)
+                WeightedGraph.add_edge(self, stop1, stop2)
 
     def all_lines(self):
         return self._linedict.keys()
@@ -103,6 +103,42 @@ class TramNetwork(WeightedGraph):
         else:
             False
 
+    def lines_between_stops(self, stop1, stop2):
+        lines_btw_stops = []
+        for key in self._linedict.keys():
+            if stop1 in self._linedict[key] and stop2 in self._linedict[key]:
+                lines_btw_stops.append(key)
+
+        sorted_stops = sorted(lines_btw_stops, key=lambda x: int(x))
+        return sorted_stops
+
+    def travel_time(self, a, b):
+
+        time = 0
+        common_line = self.lines_between_stops(a, b)[0]
+        stops_on_line = self._linedict[common_line]
+        start_index = stops_on_line.index(a)
+        end_index = stops_on_line.index(b)
+        if start_index == end_index:
+            return time
+
+        elif start_index < end_index:
+            stops_between_values = stops_on_line[start_index: end_index + 1]
+        else:
+            stops_between_values = stops_on_line[end_index: start_index + 1]
+
+        for indx in range(len(stops_between_values) - 1):
+            if stops_between_values[indx] in self._timedict and stops_between_values[indx + 1] in self._timedict[stops_between_values[indx]]:
+
+                time += self._timedict[stops_between_values[indx]
+                                       ][stops_between_values[indx + 1]]
+            else:
+                time += self._timedict[stops_between_values[indx + 1]
+                                       ][stops_between_values[indx]]
+        return time
+
+    
+    
 def readTramNetwork(tramfile=TRAM_FILE):
     with open(tramfile, 'r') as file:
         Network = json.load(file)
@@ -132,5 +168,4 @@ def specialized_transition_time(spec_network, a, b, changetime=10):
 def specialized_geo_distance(spec_network, a, b, changedistance=0.02):
     # TODO: write this function as specified
     return changedistance
-
 
