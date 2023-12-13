@@ -4,7 +4,9 @@ import json
 
 TRAM_URL_FILE = 'tramstop_vasttrafik_url.json'
 
-def extract_link_with_anchor_text(url, anchor_text):
+#this code has been made to use once, It was used to generate the url list, i have no idea if it works on its own or it requires some modifications to run agaim, but to be real, it did it job once and thats all it had to do.
+
+def extract_link(url, anchor_text):
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -12,14 +14,6 @@ def extract_link_with_anchor_text(url, anchor_text):
         for link in links:
             if anchor_text.lower() in link.text.lower():
                 return link['href']
-        print(f"No link found with the anchor text '{
-              anchor_text}' on the given website.")
-        return None
-    else:
-        print(f"Failed to retrieve the webpage. Status code: {
-              response.status_code}")
-        return None
-
 
 
 website_url = "https://www.vasttrafik.se/reseplanering/hallplatslista/"
@@ -30,8 +24,8 @@ all_stops = ['Östra Sjukhuset', 'Tingvallsvägen', 'Kaggeledstorget', 'Ättehö
              'Sanatoriegatan', 'Virginsgatan', 'Berzeliigatan', 'Gamlestads Torg', 'Hjällbo', 'Hammarkullen', 'Storås', 'Angered Centrum', 'Welandergatan', 'Töpelsgatan', 'Bögatan', 'Ekmanska', 'Bäckeliden', 'Sankt Sigfrids Plan', 'Liseberg Station', 'Lilla Bommen', 'Frihamnen', 'Hjalmar Brantingsplatsen', 'Vågmästareplatsen', 'Wieselgrensplatsen', 'Rambergsvallen', 'Gropegårdsgatan', 'Eketrägatan', 'Sälöfjordsgatan', 'Vårväderstorget', 'Mildvädersgatan', 'Önskevädersgatan', 'Friskväderstorget', 'Väderilsgatan', 'Temperaturgatan', 'Varmfrontsgatan', 'Aprilgatan', 'Allhelgonakyrkan', 'Kortedala Torg', 'Runstavsgatan', 'Nymånegatan', 'Beväringsgatan', 'Kviberg', 'Bellevue', 'SKF', 'Ejdergatan', 'Chalmers', 'Wavrinskys Plats', 'Medicinaregatan', 'Sahlgrenska Huvudentré', 'Nordstan', 'Komettorget', 'Rymdtorget Spårvagn', 'Teleskopgatan', 'Galileis Gata', 'Januarigatan', 'Kapellplatsen', 'Sannaplan', 'Sandarna', 'Kungssten', 'Doktor Sydows Gata', 'Doktor Fries Torg', 'Saltholmen', 'Roddföreningen', 'Långedrag', 'Hinsholmen', 'Käringberget', 'Tranered', 'Hagen', 'Nya Varvsallén', 'Ekedal', 'Majvallen', 'Fjällgatan']
 
 for stop in all_stops:
-    stop = stop + ','
-    result_link = extract_link_with_anchor_text(website_url, stop)
+    stop = stop 
+    result_link = extract_link(website_url, stop)
     gid = result_link.split("/")[3]
     dict[stop] = url_base + gid
 with open(TRAM_URL_FILE, 'w' ,encoding='utf8') as file:

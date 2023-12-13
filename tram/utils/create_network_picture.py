@@ -6,7 +6,7 @@
 # but you should only do this once, not every time you display a route
 # rename the resulting file to gbg_tramnet.svg when you have your final version
 
-#THIS FILE IS A ____ MESS, YOU NEED TO CHANGE TRAMS TO MAKE IT WORK IF YOU WANT TO REGENERATE GRAPHS. truly dont. 
+#THIS FILE IS A ____ MESS, YOU NEED TO CHANGE TRAMS TO MAKE IT WORK IF YOU WANT TO REGENERATE GRAPHS. truly dont. I wish you never ahve to do anything with it.
 
 from trams import readTramNetwork
 import graphviz
@@ -20,7 +20,8 @@ TRAM_FILE = r'C:\Users\bruno\Documents\GitHub\lab-3-A-web-application-for-tram-n
 MY_GBG_SVG = 'AAA_gbg_tramnet.svg'  # the output SVG file
 # given in lab3/files, replace with your own in bonus 2
 
-TRAM_URL_FILE = r'C:\Users\bruno\Documents\GitHub\lab-3-A-web-application-for-tram-network\tram\utils\tramstop_vasttrafik_url.json'
+TRAM_URL_FILE = r'C:\Users\bruno\Documents\GitHub\lab-3-A-web-application-for-tram-network\static\tramstop_vasttrafik_url.json'
+# importing files didnt work, so we forced it that way, it is ugly but works, and this code is also not ment to be reused, and it did not work on its own to beguin with, so if you wnat to change something i wish you good luck
 
 # assign colors to lines, indexed by line number; not quite accurate
 gbg_linecolors = {
