@@ -15,8 +15,10 @@ sys.path.append(
 MY_TRAMNETWORK_JSON = r'C:\Users\bruno\Documents\GitHub\lab-3-A-web-application-for-tram-network\static\tramnetwork.json'
 TRAM_FILE = r'C:\Users\bruno\Documents\GitHub\lab-3-A-web-application-for-tram-network\static\tramnetwork.json'
 
-MY_GBG_SVG = 'my_gbg_tramnet.svg'  # the output SVG file
-TRAM_URL_FILE = r'C:\Users\bruno\Documents\GitHub\lab-3-A-web-application-for-tram-network\static\tramstop_vasttrafik_url.json'  # given in lab3/files, replace with your own in bonus 2
+MY_GBG_SVG = 'AAA_gbg_tramnet.svg'  # the output SVG file
+# given in lab3/files, replace with your own in bonus 2
+
+TRAM_URL_FILE = r'C:\Users\bruno\Documents\GitHub\lab-3-A-web-application-for-tram-network\tram\utils\tramstop_vasttrafik_url.json'
 
 # assign colors to lines, indexed by line number; not quite accurate
 gbg_linecolors = {
@@ -39,8 +41,8 @@ def scaled_position(network):
 # Bonus task 2: create a json file that returns the actual traffic information, and rerun the map creation
 
 def stop_url(stop):
-    with open(TRAM_URL_FILE) as file:
-        stop_urls = json.loads(file.read())        
+    with open(TRAM_URL_FILE, 'r', encoding="utf-8") as file:
+        stop_urls = json.load(file)        
     return stop_urls.get(stop, '.')
 
 
@@ -73,7 +75,7 @@ def network_graphviz(network, outfile=MY_GBG_SVG, positions=scaled_position):
 
     dot.format = 'svg'
     s = dot.pipe().decode('utf-8')
-    with open(outfile, 'w') as file:
+    with open(outfile, 'w', encoding= "utf-8") as file:
         file.write(s)
 
 
