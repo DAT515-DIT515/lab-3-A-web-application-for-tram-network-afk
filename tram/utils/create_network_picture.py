@@ -6,6 +6,8 @@
 # but you should only do this once, not every time you display a route
 # rename the resulting file to gbg_tramnet.svg when you have your final version
 
+#THIS FILE IS A ____ MESS, YOU NEED TO CHANGE TRAMS TO MAKE IT WORK IF YOU WANT TO REGENERATE GRAPHS. truly dont. 
+
 from trams import readTramNetwork
 import graphviz
 import json
@@ -51,7 +53,7 @@ def stop_url(stop):
 # If not, you will need to change the method call to correspond to your class.
 
 def network_graphviz(network, outfile=MY_GBG_SVG, positions=scaled_position):
-    dot = graphviz.Graph(engine='fdp', graph_attr={'size': '12,12'})
+    dot = graphviz.Graph(engine='fdp', graph_attr={'size': '30,30'})
 
     for stop in network.all_stops():
         

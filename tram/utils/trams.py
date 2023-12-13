@@ -71,6 +71,7 @@ class TramNetwork(WeightedGraph):
         return self._stopdict[a]
 
 
+
     def lines_between_stops(self, stop1, stop2):
         lines_btw_stops = []
         for key in self._linedict.keys():
