@@ -8,58 +8,37 @@ from django.conf import settings
 
 
 def show_shortest(dep, dest, cost=lambda u, v: 1):
-    # TODO: uncomment this when it works with your own code
     network = readTramNetwork()
-    #spec_network = network.specialize_stops_to_lines()
 
-   
-    # TODO: replace this mock-up with actual computation using dijkstra.
-    # First you need to calculate the shortest and quickest paths, by using appropriate
-    # cost functions in dijkstra().
-    # Then you just need to use the lists of stops returned by dijkstra()
-    #
-    # If you do Bonus 1, you could also tell which tram lines you use and where changes
-    # happen. But since this was not mentioned in lab3.md, it is not compulsory.
-
-    
-    quickest = [dep, 'Varmfrontsgatan', 'Temperaturgatan', 'Valand', dest]
-    # shortest = [dep, 'Chalmers', 'Temperaturgatan', dest]
-    # distance, shortpath = dijkstra(network, dep, cost = network.geo_distansce)
-    
-    # distance, shortpath = dijkstra(
-    #     spec_network, dep, cost=spec_network.specialized_geo_distance)
-    distance, shortpath = dijkstra(network, dep, cost=network.geo_distansce)
+    distance, shortpath = dijkstra(
+        network, dep, cost=network.specialized_geo_distance)
     
     min_distance = float('inf')
     shortest = None
-
     
     for i in shortpath:
         if i[0] == dest and distance[i] < min_distance:
             min_distance = distance[i]
-            shortest = shortpath[i]
-            
+            shortest = shortpath[i]      
     shortest = [item[0] for item in shortest]
+    distacne_traveled = min_distance
+ 
+    time, quickpath = dijkstra(network, dep, cost=network.specialized_transition_time)
 
+    min_time = float('inf')
+    quickest = None
+    
+    for i in quickpath:
+        if i[0] == dest and time[i] < min_time:
+            min_time = time[i]
+            quickest = quickpath[i]
 
+    quickest = [item[0] for item in quickest]
+    travel_time = min_time
     
+    timepath = 'Quickest: ' + dep + ', '+', '.join(quickest) + ' Time it took: ' + str(travel_time) + " min."
     
-    print(shortest)        
-    # shortest = shortpath[dest]
-    distacne_traveled = distance[dest]
-    # time, quickpath = dijkstra(
-    #     spec_network, dep, cost=spec_network.specialized_transition_time)
-    # # time, quickpath = dijkstra(network, dep, cost=network.travel_time)
-    # quickest = quickpath[dest]
-    # travel_time = time[dest]
-    
-
-
-    timepath = 'Quickest: ' + ', '.join(quickest) + ' Time it took: ' #+ str(travel_time) + " min."
-    
-    geopath = 'Shortest: ' + \
-        '. '.join(shortest) + \
-        '. Distance traveled: ' "{:.3f}".format(distacne_traveled) +  ' km.'
+    geopath = 'Shortest: '+ dep + ', ' + ', '.join(shortest) + '. Distance traveled: ' "{:.3f}".format(distacne_traveled) +  ' km.'
 
 
 
@@ -84,6 +63,3 @@ def show_shortest(dep, dest, cost=lambda u, v: 1):
     # return the path texts to be shown in the web page
     return timepath, geopath
 
-# Get-ExecutionPolicy
-# Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force
-# myvenv/Scripts/activate.ps1
