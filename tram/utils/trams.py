@@ -70,6 +70,7 @@ class TramNetwork(WeightedGraph):
     def stop_position(self, a):
         return self._stopdict[a]
 
+
     def lines_between_stops(self, stop1, stop2):
         lines_btw_stops = []
         for key in self._linedict.keys():
@@ -149,6 +150,7 @@ class TramNetwork(WeightedGraph):
                     vertex1 = (stop_name, line1)
                     vertex2 = (stop_name, line2)
                     self.add_edge_pairs(vertex1, vertex2)
+
 
     def specialized_transition_time(self, a, b, changetime=10):
         time = self.travel_time(a, b)
