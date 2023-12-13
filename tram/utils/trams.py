@@ -14,7 +14,7 @@ TRAM_FILE = os.path.join(settings.BASE_DIR, 'static/tramnetwork.json')
 
 class TramNetwork(WeightedGraph):
     def __init__(self, lines, stops, times):
-        super().__init__(stops)
+        super().__init__()
         self._linedict = lines
         self._stopdict = stops
         self._timedict = times
@@ -27,6 +27,76 @@ class TramNetwork(WeightedGraph):
                 stop1 = stops[i]
                 stop2 = stops[i+1]
                 WeightedGraph.add_edge(self, stop1, stop2)
+
+        # BONUS 1
+        # Create vertices for stops and lines
+        for stop_name in self._stopdict.keys():
+            for line in self._linedict.keys():
+                if stop_name in self.line_stops(line):
+                    self.add_vertex_pairs(stop_name, line)
+
+                    stops = self._linedict[line]
+                    for i in range(len(stops) - 1):
+                        stop1 = stops[i]
+                        stop2 = stops[i+1]
+                        vertex1 = (stop1, line)
+                        vertex2 = (stop2, line)
+                        self.add_edge_pairs(vertex1, vertex2)
+
+        # Create edges between same stops
+        for tram_line, stops in self._linedict.items():
+            for i in range(len(stops) - 1):
+                stop1 = (stops[i], tram_line)
+                stop2 = (stops[i+1], tram_line)
+                WeightedGraph.add_edge_pairs(self, stop1, stop2)
+
+                # Create edges for stops and lines
+                if i == 0:
+                    # Connect first stop to itself for line transfer
+                    self.add_edge_pairs(stop1, stop1)
+
+        # Connect vertices with same stop and line
+        for vertex_pair in self.vertices_pairs():
+            for vertex in self.vertices():
+                if vertex_pair[0] == vertex:
+                    neighbors = self.neighbors(vertex)
+                    for neighbor in neighbors:
+                        for line in self._linedict.keys():
+                            if vertex in self.line_stops(line) and neighbor in self.line_stops(line) and vertex_pair[1] == line:
+                                neighbor_tuple = (neighbor, vertex_pair[1])
+                                self.connect_edges(vertex_pair, neighbor_tuple)
+
+        # Connect vertices with same stop but differnt lines
+        for stop_name in self._stopdict.keys():
+            lines_at_stop = [line for line in self._linedict.keys(
+            ) if stop_name in self.line_stops(line)]
+
+            for i in range(len(lines_at_stop)):
+                for j in range(i + 1, len(lines_at_stop)):
+                    line1 = lines_at_stop[i]
+                    line2 = lines_at_stop[j]
+
+                    vertex1 = (stop_name, line1)
+                    vertex2 = (stop_name, line2)
+
+                    self.add_edge_pairs(vertex1, vertex2)
+
+        # Set weights for same stop differnt lines
+        change_distance = 0.02
+        change_time = 10
+
+        for stop in self._stopdict.keys():
+            stop_vertices = [(stop, line) for line in self._linedict.keys()]
+            for i in range(len(stop_vertices)):
+                for j in range(i + 1, len(stop_vertices)):
+                    vertex1 = stop_vertices[i]
+                    vertex2 = stop_vertices[j]
+                    if vertex1[0] == vertex2[0] and vertex1[1] != vertex2[1]:
+                        self.set_weight(vertex1, vertex2, change_distance)
+                        self.set_weight(vertex2, vertex1, change_distance)
+                        self.set_weight(vertex1, vertex2, change_time)
+                        self.set_weight(vertex2, vertex1, change_time)
+
 
     def all_lines(self):
         return self._linedict.keys()
@@ -137,7 +207,59 @@ class TramNetwork(WeightedGraph):
                                        ][stops_between_values[indx]]
         return time
 
-    
+    def specialize_stops_to_lines(self):
+        stops = list(self.all_stops())
+        lines = self.all_lines()
+
+        for line in lines:
+            for i in range(len(stops) - 1):
+                # for i in range(len(self.line_stops(line)) - 1):
+                stop1 = stops[i]
+                # So we don't get over the length of our list
+                stop2 = stops[i + 1] if i + 1 < len(stops) else None
+
+                # if stop1 in self.line_stops(line) and stop2 in self.line_stops(line) and stop2 is not None:
+                # # if stop1 == stop2 in Graph.vertices_pairs(self):
+                #     Graph.add_edge_pairs(self, stop1, stop2, line)
+                if stop1 in self.line_stops(line):
+                    WeightedGraph.add_vertex_pairs(self, stop1, line)
+                elif stop2 in self.line_stops(line):
+                    WeightedGraph.add_vertex_pairs(self, stop2, line)
+
+        # Connect vertices with the same stop
+        for stop in stops:
+            stop_lines = self.stop_lines(stop)
+            stop_vertices = [(stop, line) for line in stop_lines]
+            for i in range(len(stop_vertices) - 1):
+                for j in range(i + 1, len(stop_vertices)):
+                    vertex1 = stop_vertices[i]
+                    vertex2 = stop_vertices[j]
+                    if vertex1[0] == vertex2[0] and vertex1[1] != vertex2[1]:
+
+                        if (vertex1, vertex2) not in WeightedGraph.edges_pairs(self) and (vertex2, vertex1) not in WeightedGraph.edges_pairs(self):
+                            WeightedGraph.add_edge_pairs(
+                                self, stop_vertices[i], stop_vertices[j])
+
+
+        return self
+
+
+    def specialized_transition_time(self, a, b, changetime=10):
+        time = self.travel_time(a, b)
+        if time == 0:
+            return changetime
+        else:
+            return time
+
+
+    def specialized_geo_distance(self, a, b, changedistance=0.02):
+        distance = self.geo_distansce(a, b)
+        # print(a)
+        # print(self.neighbors_pairs(a))
+        if a == b:
+                return changedistance
+        else:
+                return distance
     
 def readTramNetwork(tramfile=TRAM_FILE):
     with open(tramfile, 'r') as file:
@@ -150,22 +272,4 @@ def readTramNetwork(tramfile=TRAM_FILE):
 
 
 
-
-
-
-# Bonus task 1: take changes into account and show used tram lines
-
-def specialize_stops_to_lines(network):
-    # TODO: write this function as specified
-    return network
-
-
-def specialized_transition_time(spec_network, a, b, changetime=10):
-    # TODO: write this function as specified
-    return changetime
-
-
-def specialized_geo_distance(spec_network, a, b, changedistance=0.02):
-    # TODO: write this function as specified
-    return changedistance
 
